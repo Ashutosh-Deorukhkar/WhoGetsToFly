@@ -1,8 +1,15 @@
 import numpy as np
 
 from .models import sample_marginal_values, truthful_bids_from_values
-from .mechanisms import uniform_price_auction, discriminatory_price_auction, welfare_maximizing_allocation
-from .metrics import total_value
+from .mechanisms import (
+    uniform_price_auction,
+    discriminatory_price_auction,
+    welfare_maximizing_allocation,
+)
+from .metrics import (
+    total_value,
+    fairness_1_minus_hhi,
+)
 
 
 def run_one_scenario(n_airlines: int, m_slots: int, max_demand: int, seed: int = 0):
@@ -17,7 +24,6 @@ def run_one_scenario(n_airlines: int, m_slots: int, max_demand: int, seed: int =
     alloc_d, pay_d, info_d = discriminatory_price_auction(bids, m_slots)
     alloc_w, winners_w = welfare_maximizing_allocation(values, m_slots)
 
-    # Metrics
     out = {
         "n_airlines": n_airlines,
         "m_slots": m_slots,
@@ -26,11 +32,14 @@ def run_one_scenario(n_airlines: int, m_slots: int, max_demand: int, seed: int =
         "uniform_eff": total_value(values, alloc_u),
         "uniform_rev": float(pay_u.sum()),
         "uniform_price": info_u["clearing_price"],
+        "uniform_fair": fairness_1_minus_hhi(alloc_u),
 
         "disc_eff": total_value(values, alloc_d),
         "disc_rev": float(pay_d.sum()),
         "disc_price": info_d["clearing_price"],
+        "disc_fair": fairness_1_minus_hhi(alloc_d),
 
-        "welfare_eff": total_value(values, alloc_w),  # benchmark welfare
+        "welfare_eff": total_value(values, alloc_w),
+        "welfare_fair": fairness_1_minus_hhi(alloc_w),
     }
     return out
