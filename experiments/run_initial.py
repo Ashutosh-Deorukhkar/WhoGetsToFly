@@ -26,18 +26,27 @@ def main():
     rows = []
     for n, m in grid:
         for s in tqdm(seeds, desc=f"n={n}, m={m}"):
-            rows.append(run_one_scenario(n, m, max_demand, seed=s))
+            rows.append(run_one_scenario(n, m, max_demand, seed=s, bidding_mode="truthful"))
+            rows.append(run_one_scenario(n, m, max_demand, seed=s, bidding_mode="strategic"))
 
     df = pd.DataFrame(rows)
 
+    # Base metrics
+    cols = [
+        "uniform_eff","uniform_rev","uniform_fair",
+        "disc_eff","disc_rev","disc_fair",
+    ]
+
+    # Add strategic diagnostics if present
+    extra = ["uniform_alpha","uniform_eq_gap","disc_alpha","disc_eq_gap"]
+    for c in extra:
+        if c in df.columns:
+            cols.append(c)
+
     print(
-        df.groupby(["n_airlines", "m_slots"])[
-            [
-                "uniform_eff", "uniform_rev", "uniform_fair",
-                "disc_eff", "disc_rev", "disc_fair",
-                "welfare_eff", "welfare_fair",
-            ]
-        ].mean().round(3)
+        df.groupby(["bidding_mode", "n_airlines", "m_slots"])[cols]
+          .mean()
+          .round(3)
     )
 
     output_dir = r"C:\Users\toash\OneDrive\Desktop\E81 CSE 516P\Outputs"
