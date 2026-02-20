@@ -35,6 +35,6 @@ def discriminatory_price_auction(bids: np.ndarray, m_slots: int):
     return alloc, payments, {"clearing_price": float(clearing)}
 
 def welfare_maximizing_allocation(values: np.ndarray, m_slots: int):
-    # For additive marginal values, welfare max = allocate top m marginal values.
+    # For additive marginal values, welfare max = allocate top m marginal values
     alloc, winners, _ = allocate_top_m_units(values, m_slots)
     return alloc, winners
