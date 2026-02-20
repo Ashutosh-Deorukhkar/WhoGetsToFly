@@ -1,6 +1,6 @@
 # Airport Slot Allocation Simulator (Multi-Unit Auctions)
 
-This repository contains a simulation framework for studying **airport slot allocation** as a **multi-unit auction** with **strategic airlines**. We compare auction mechanisms under **truthful bidding** vs **strategic bid shading**, and evaluate outcomes using **efficiency**, **revenue**, **fairness**, and **equilibrium gap** diagnostics.
+This repository contains a simulation framework for studying **airport slot allocation** as a **multi-unit auction** with **strategic airlines**. It compares auction mechanisms under **truthful bidding** vs **strategic bid shading**, and evaluate outcomes using **efficiency**, **revenue**, **fairness**, and **equilibrium gap** diagnostics.
 
 ---
 ## Repository Structure
@@ -31,7 +31,7 @@ Experiment runners (entry points). These scripts call the simulator, aggregate r
       - fairness
       - equilibrium gap
 
-> Note: Both experiment scripts currently write outputs to a Windows path under `C:\Users\toash\...`. Update `output_dir` if running elsewhere.
+
 
 ---
 
